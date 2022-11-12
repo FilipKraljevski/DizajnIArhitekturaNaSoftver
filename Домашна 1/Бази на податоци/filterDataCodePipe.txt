@@ -1,0 +1,31 @@
+!pip install xlsxwriter
+!pip install pipe
+import requests
+import xlsxwriter
+from pipe import where
+
+API = "dbc9f91b2ceb4b6fb889df8f299139cf"
+url = "https://api.geoapify.com/v2/places?categories=catering.restaurant,catering.cafe&filter=place:511f83bc9b806f35405918bc935fdbff4440f00101f901c14c6a0000000000c0020692030cd0a1d0bad0bed0bfd198d0b5&limit=500&apiKey=" + API
+          
+response = requests.get(url)
+jsonObject = response.json();
+
+lista = list(jsonObject["features"] | where(lambda x: "name" in x["properties"]) | where(lambda x: "suburb" in x["properties"]))
+
+workbook = xlsxwriter.Workbook('Restourants.xlsx')
+worksheet = workbook.add_worksheet()
+worksheet.write('A1', 'Name')
+worksheet.write('B1', 'Suburb')
+worksheet.write('C1', 'Street')
+worksheet.write('D1', 'Longitude')
+worksheet.write('E1', 'Latitude')
+row = 1
+
+for retourant in lista:
+      worksheet.write(row,0,retourant["properties"]["name"])
+      worksheet.write(row,1,retourant["properties"]["suburb"])
+      worksheet.write(row,2,retourant["properties"]["street"])
+      worksheet.write(row,3,retourant["properties"]["lon"])
+      worksheet.write(row,4,retourant["properties"]["lat"])
+      row+=1
+workbook.close()
