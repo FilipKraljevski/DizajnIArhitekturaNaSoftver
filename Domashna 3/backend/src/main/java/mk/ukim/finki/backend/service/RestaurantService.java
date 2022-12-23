@@ -7,7 +7,7 @@ import java.util.List;
 public interface RestaurantService {
     List<Restaurant> findAll();
 
-    Restaurant findByName(String name);
+    List<Restaurant> findByName(String name);
 
     List<Restaurant> findBySuburb(String suburb);
 

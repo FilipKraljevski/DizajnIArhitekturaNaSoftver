@@ -1,4 +1,4 @@
-package mk.ukim.finki.backend.bootsrap;
+/*package mk.ukim.finki.backend.bootsrap;
 
 import com.opencsv.CSVWriter;
 import jakarta.annotation.PostConstruct;
@@ -86,4 +86,4 @@ public class DataHolder {
             e.printStackTrace();
         }
     }
-}
+}*/

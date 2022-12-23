@@ -2,7 +2,6 @@ package mk.ukim.finki.backend.service.imp;
 
 import mk.ukim.finki.backend.model.Exceptions.EmailAlreadyExistsException;
 import mk.ukim.finki.backend.model.Exceptions.InvalidArgumentsException;
-import mk.ukim.finki.backend.model.Exceptions.InvalidUserCredentialsException;
 import mk.ukim.finki.backend.model.User;
 import mk.ukim.finki.backend.repository.UserRepository;
 import mk.ukim.finki.backend.service.UserService;
@@ -21,8 +20,7 @@ public class UserServiceImp implements UserService {
         if(email == null || email.isEmpty() || password == null ||password.isEmpty()){
             throw new InvalidArgumentsException();
         }
-        return userRepository.findByEmailAndPassword(email, password)
-                .orElseThrow(InvalidUserCredentialsException::new);
+        return userRepository.findByEmailAndPassword(email, password);
     }
 
     @Override
@@ -30,7 +28,7 @@ public class UserServiceImp implements UserService {
         if(username == null || username.isEmpty() || password == null ||password.isEmpty() || email == null || email.isEmpty()){
             throw new InvalidArgumentsException();
         }
-        if(userRepository.findByEmail(email).isPresent() || !userRepository.findByEmail(email).isEmpty()){
+        if(userRepository.findByEmail(email) != null){
             throw new EmailAlreadyExistsException(username);
         }
         User user = new User(username, email, password);

@@ -23,18 +23,18 @@ public class RestaurantServiceImp implements RestaurantService {
     }
 
     @Override
-    public Restaurant findByName(String name) {
-        return restaurantRepository.findByName(name).orElse(null);
+    public List<Restaurant> findByName(String name) {
+        return restaurantRepository.findAllByName(name);
     }
 
     @Override
     public List<Restaurant> findBySuburb(String suburb) {
-        return restaurantRepository.findBySuburb(suburb);
+        return restaurantRepository.findAllBySuburb(suburb);
     }
 
     @Override
     public List<Restaurant> findByStreet(String street) {
-        return restaurantRepository.findByStreet(street);
+        return restaurantRepository.findAllByStreet(street);
     }
 
     @Override
@@ -44,10 +44,10 @@ public class RestaurantServiceImp implements RestaurantService {
                 lat == null || lat.isInfinite() || lat.isNaN() || lon == null || lon.isNaN() || lon.isInfinite()){
             throw new InvalidArgumentsException();
         }
-        if(restaurantRepository.findByName(name).isPresent()){
+        if(restaurantRepository.findAllByName(name) != null){
             throw new RestaurantAlreadyExistsException(name);
         }
         Restaurant restaurant = new Restaurant(name, suburb, street, lat, lon, opens, closes, website, phone);
-        return restaurantRepository.saveRestaurant(restaurant);
+        return restaurantRepository.save(restaurant);
     }
 }
