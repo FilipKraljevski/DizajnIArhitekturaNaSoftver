@@ -21,13 +21,27 @@ public class LoginController {
     }
 
     @GetMapping
-    public String getLoginPage(HttpServletRequest request){
-        if(request.getSession().getAttribute("user") != null){
+    public String getLoginPage(HttpServletRequest request) {
+        if (request.getSession().getAttribute("user") != null) {
             return "home";
         }
         return "login";
     }
 
+    @PostMapping
+    public String login(HttpServletRequest req, Model model) {
+        User user = null;
+        try {
+            user = this.userService.login(req.getParameter("email"), req.getParameter("password"));
 
+            req.getSession().setAttribute("user", user);
+            req.getSession().setAttribute("email", user.getEmail());
+            return "redirect:/home";
+        } catch (InvalidUserCredentialsException exception) {
+            model.addAttribute("hasError", true);
+            model.addAttribute("error", exception.getMessage());
+            return "login";
+        }
+    }
 
 }
