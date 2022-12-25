@@ -43,16 +43,48 @@ public class RestaurantServiceImp implements RestaurantService {
     }
 
     @Override
-    public Restaurant saveRestaurant(String name, String suburb, String street, Double lat, Double lon, String opens,
+    public Restaurant saveRestaurant(String name, String suburb, String street, String lat, String lon, String opens,
                                      String closes, String website, String phone) {
-        if(name == null || name.isEmpty() || suburb == null || suburb.isEmpty() || street == null || street.isEmpty() ||
+        /*if(name == null || name.isEmpty() || suburb == null || suburb.isEmpty() || street == null || street.isEmpty() ||
                 lat == null || lat.isInfinite() || lat.isNaN() || lon == null || lon.isNaN() || lon.isInfinite()){
             throw new InvalidArgumentsException();
+        }*/
+        for(int i=0;i<lon.length();i++){
+            if(Character.isLetter(lon.charAt(i))) {
+                throw new InvalidArgumentsException("lat and lon must only contain digits");
+            }
+        }
+        for(int i=0;i<lat.length();i++){
+            if(Character.isLetter(lat.charAt(i))) {
+                throw new InvalidArgumentsException("lat and lon must only contain digits");
+            }
+        }
+        if(!opens.contains(":") || !closes.contains(":")){
+            throw new InvalidArgumentsException("opens and closes must contain character ':', example 08:00");
+        }
+        for(int i=0;i<opens.length();i++){
+            if(Character.isLetter(opens.charAt(i))) {
+                throw new InvalidArgumentsException("opens and closes must only contain digits and ':'");
+            }
+        }
+        for(int i=0;i<closes.length();i++){
+            if(Character.isLetter(closes.charAt(i))) {
+                throw new InvalidArgumentsException("opens and closes must only contain digits and ':'");
+            }
+        }
+        for(int i=0;i<phone.length();i++){
+            if(Character.isLetter(phone.charAt(i))) {
+                throw new InvalidArgumentsException("phone must only contain digits");
+            }
+        }
+        if(!website.contains("http://") && !website.contains("https://")){
+            throw new InvalidArgumentsException("website must contain http:// ot https://");
         }
         //if(restaurantRepository.findAllByName(name) != null){
         //    throw new RestaurantAlreadyExistsException(name);
         //}
-        Restaurant restaurant = new Restaurant(name, suburb, street, lat, lon, opens, closes, website, phone);
+        Restaurant restaurant = new Restaurant(name, suburb, street, Double.valueOf(lat), Double.valueOf(lon), opens,
+                closes, website, phone);
         return restaurantRepository.save(restaurant);
     }
 }

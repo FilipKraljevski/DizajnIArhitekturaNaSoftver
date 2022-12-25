@@ -18,44 +18,51 @@
     </div>
     <div id="admin-main">
         <h1 style="margin-bottom: 40px">Додади ресторан</h1>
+        <div th:if="${hasError}" class="error" style="color: red">
+            <div th:text="${error}"></div>
+        </div>
         <form method="post" style="display: flex;flex-direction: column;justify-content: center;align-items: center;width: 100%" th:action="@{/admin}">
             <div class="admin-row">
                 <div class="form-control-container">
                     <label for="ime">Име</label>
-                    <input type="text" id="ime" name="ime">
+                    <input type="text" id="ime" name="name" required placeholder="restaurant name">
                 </div>
                 <div class="form-control-container">
                     <label for="naselba">Населба</label>
-                    <input type="text" id="naselba" name="naselba">
+                    <input type="text" id="naselba" name="suburb" required placeholder="suburb name">
                 </div>
                 <div class="form-control-container">
                     <label for="website">Вебсајт</label>
-                    <input type="text" id="website" name="website">
+                    <input type="text" id="website" name="website" required placeholder="http://example" >
                 </div>
 
             </div>
             <div class="admin-row">
                 <div class="form-control-container">
                     <label for="telefon">Телефон</label>
-                    <input type="text" id="telefon" name="telefon">
+                    <input type="text" id="telefon" name="phone" required placeholder="+38971234567">
                 </div>
                 <div class="form-control-container">
                     <label for="long">long</label>
-                    <input type="text" id="long" name="long">
+                    <input type="text" id="long" name="lon" required placeholder="20.000">
                 </div>
                 <div class="form-control-container">
                     <label for="lat">lat</label>
-                    <input type="text" id="lat" name="lat">
+                    <input type="text" id="lat" name="lat" required placeholder="40.000">
                 </div>
             </div>
             <div class="admin-row">
                 <div class="form-control-container">
+                    <label for="ulica">Отворено од</label>
+                    <input type="text" id="ulica" name="street" required placeholder="street name">
+                </div>
+                <div class="form-control-container">
                     <label for="opens">Отворено од</label>
-                    <input type="text" id="opens" name="opens">
+                    <input type="text" id="opens" name="opens" required placeholder="08:00">
                 </div>
                 <div class="form-control-container">
                     <label for="closes">Отворено до</label>
-                    <input type="text" id="closes" name="closes">
+                    <input type="text" id="closes" name="closes" required placeholder="23:00">
                 </div>
 
 
