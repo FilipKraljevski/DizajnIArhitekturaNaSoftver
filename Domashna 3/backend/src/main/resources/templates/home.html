@@ -48,10 +48,13 @@
 
 <div id="header">
     <a href="/"><div id="header-left"><img src="../static/logo.png" th:src="@{/logo.png}" id="logo"/><h1 style="color: black">Restourants in Skopje</h1></div></a>
-
+    <div style="margin-right: 80px;">
     <a id="dropdownSpan" href="/login" ><div id="login-btn-container"><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
         <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3Zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/>
-    </svg><span th:if="${session.user==null}">Најави се</span><span th:if="${session.user!=null}" th:text="${session.user.getUsername()}"><div id="dropdown-content"><a href="/admin">Dashboard</a><a href="/logout">Logout</a></div></span></div></a>
+    </svg><span th:if="${session.user==null}">Најави се</span><span th:if="${session.user!=null}" th:text="${session.user.getUsername()}"><!--<div id="dropdown-content"><a href="/admin">Dashboard</a><a href="/logout">Logout</a></div>--></span></div></a>
+    <a th:if="${session.user!=null}" style="color: black" href="/admin">Dashboard</a>
+    <a th:if="${session.user!=null}" style="margin-left: 30px; color: black" href="/logout">Logout</a>
+    </div>
 </div>
 <div id="page-container">
     <div id="map-container">

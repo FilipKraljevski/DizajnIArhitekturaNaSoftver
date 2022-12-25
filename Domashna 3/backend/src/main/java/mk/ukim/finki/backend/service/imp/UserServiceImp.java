@@ -30,8 +30,8 @@ public class UserServiceImp implements UserService {
 
     @Override
     public User register(String username, String email, String password) {
-        if(username == null || username.isEmpty() || password == null ||password.isEmpty() || email == null || email.isEmpty()){
-            //throw new InvalidArgumentsException();
+        if(!email.contains("@")){
+            throw new InvalidArgumentsException("email must contain '@'");
         }
         if(userRepository.findByEmail(email) != null){
             throw new EmailAlreadyExistsException(email);

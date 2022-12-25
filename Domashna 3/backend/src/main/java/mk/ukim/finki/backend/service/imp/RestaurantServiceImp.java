@@ -73,7 +73,7 @@ public class RestaurantServiceImp implements RestaurantService {
             }
         }
         if(!website.contains("http://") && !website.contains("https://")){
-            throw new InvalidArgumentsException("website must contain http:// ot https://");
+            throw new InvalidArgumentsException("website must contain http:// or https://");
         }
         Restaurant restaurant = new Restaurant(name, suburb, street, Double.valueOf(lat), Double.valueOf(lon), opens,
                 closes, website, phone);

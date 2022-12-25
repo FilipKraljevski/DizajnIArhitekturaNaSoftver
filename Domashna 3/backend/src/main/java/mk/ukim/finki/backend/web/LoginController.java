@@ -1,7 +1,6 @@
 package mk.ukim.finki.backend.web;
 
 import jakarta.servlet.http.HttpServletRequest;
-import mk.ukim.finki.backend.model.Exceptions.InvalidUserCredentialsException;
 import mk.ukim.finki.backend.model.User;
 import mk.ukim.finki.backend.service.UserService;
 import org.springframework.stereotype.Controller;

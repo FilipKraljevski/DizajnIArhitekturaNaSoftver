@@ -17,12 +17,15 @@
     <div id="form-container">
       <form method="post" action="" style="display: flex;flex-direction: column">
       <h1>Регистрирај се</h1>
-      <label for="ime">Име и презиме</label>
-      <input type="text" id="ime" name="ime" class="input-lg">
+        <div th:if="${hasError}" class="error" style="color: red">
+          <div th:text="${error}"></div>
+        </div>
+      <label for="ime">Корисничко име</label>
+      <input type="text" id="ime" name="username" class="input-lg" required placeholder="username">
       <label for="email">Email</label>
-      <input type="text" id="email" name="email">
+      <input type="text" id="email" name="email" required placeholder="example@mail.com">
       <label for="lozinka">Лозинка</label>
-      <input type="password" id="lozinka" name="lozinka">
+      <input type="password" id="lozinka" name="password" required>
 
       <button type="submit" class="btn btn-danger">Регистрирај се</button>
       </form>
