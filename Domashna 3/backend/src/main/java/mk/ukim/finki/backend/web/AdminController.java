@@ -1,6 +1,8 @@
 package mk.ukim.finki.backend.web;
 
+import jakarta.servlet.http.HttpServletRequest;
 import mk.ukim.finki.backend.model.Exceptions.InvalidArgumentsException;
+import mk.ukim.finki.backend.model.User;
 import mk.ukim.finki.backend.service.RestaurantService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,8 +23,12 @@ public class AdminController {
     }
 
     @GetMapping
-    public String getAdminPanel(){
-        return "admin-panel";
+    public String getAdminPanel(HttpServletRequest request){
+        User user = (User)request.getSession().getAttribute("user");
+        if(user != null && user.isAdmin()){
+            return "admin-panel";
+        }
+        return "home";
     }
 
     @PostMapping
