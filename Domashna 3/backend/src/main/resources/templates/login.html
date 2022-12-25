@@ -16,11 +16,14 @@
 
   <div id="form-container">
     <h1>Најави се</h1>
+    <div th:if="${hasError}" class="error" style="color: red">
+      <div th:text="${error}"></div>
+    </div>
     <form method="post" style="display: flex;flex-direction: column">
     <label for="email">Email</label>
-    <input type="text" id="email" name="email">
+    <input type="text" id="email" name="email" required placeholder="example@mail.com">
     <label for="password">Лозинка</label>
-    <input type="password" id="password" name="password"><button type="submit" class="btn btn-danger">Најави се</button>
+    <input type="password" id="password" name="password" required><button type="submit" class="btn btn-danger">Најави се</button>
     </form>
 
     <span style="display: flex"><p><b>Нов корисник?</b></p><a href="/register" style="text-decoration: underline;margin-left: 10px">Регистрирај се</a></span>

@@ -2,6 +2,7 @@ package mk.ukim.finki.backend.service.imp;
 
 import mk.ukim.finki.backend.model.Exceptions.EmailAlreadyExistsException;
 import mk.ukim.finki.backend.model.Exceptions.InvalidArgumentsException;
+import mk.ukim.finki.backend.model.Exceptions.InvalidUserCredentialsException;
 import mk.ukim.finki.backend.model.User;
 import mk.ukim.finki.backend.repository.UserRepository;
 import mk.ukim.finki.backend.service.UserService;
@@ -17,10 +18,14 @@ public class UserServiceImp implements UserService {
 
     @Override
     public User login(String email, String password) {
-        if(email == null || email.isEmpty() || password == null ||password.isEmpty()){
-            //throw new InvalidArgumentsException();
+        if(!email.contains("@")){
+            throw new InvalidArgumentsException("email must contain '@'");
         }
-        return userRepository.findByEmailAndPassword(email, password);
+        User user = userRepository.findByEmailAndPassword(email, password);
+        if(user == null){
+            throw new InvalidUserCredentialsException();
+        }
+        return user;
     }
 
     @Override

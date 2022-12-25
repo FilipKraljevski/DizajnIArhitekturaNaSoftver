@@ -37,7 +37,7 @@ public class LoginController {
             req.getSession().setAttribute("user", user);
             req.getSession().setAttribute("email", user.getEmail());
             return "redirect:/home";
-        } catch (InvalidUserCredentialsException exception) {
+        } catch (Exception exception) {
             model.addAttribute("hasError", true);
             model.addAttribute("error", exception.getMessage());
             return "login";
