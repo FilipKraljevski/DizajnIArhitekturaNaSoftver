@@ -1,7 +1,6 @@
 package mk.ukim.finki.backend.service.imp;
 
 import mk.ukim.finki.backend.model.Exceptions.InvalidArgumentsException;
-import mk.ukim.finki.backend.model.Exceptions.RestaurantAlreadyExistsException;
 import mk.ukim.finki.backend.model.Restaurant;
 import mk.ukim.finki.backend.repository.RestaurantRepository;
 import mk.ukim.finki.backend.service.RestaurantService;
@@ -45,10 +44,6 @@ public class RestaurantServiceImp implements RestaurantService {
     @Override
     public Restaurant saveRestaurant(String name, String suburb, String street, String lat, String lon, String opens,
                                      String closes, String website, String phone) {
-        /*if(name == null || name.isEmpty() || suburb == null || suburb.isEmpty() || street == null || street.isEmpty() ||
-                lat == null || lat.isInfinite() || lat.isNaN() || lon == null || lon.isNaN() || lon.isInfinite()){
-            throw new InvalidArgumentsException();
-        }*/
         for(int i=0;i<lon.length();i++){
             if(Character.isLetter(lon.charAt(i))) {
                 throw new InvalidArgumentsException("lat and lon must only contain digits");
@@ -80,9 +75,6 @@ public class RestaurantServiceImp implements RestaurantService {
         if(!website.contains("http://") && !website.contains("https://")){
             throw new InvalidArgumentsException("website must contain http:// ot https://");
         }
-        //if(restaurantRepository.findAllByName(name) != null){
-        //    throw new RestaurantAlreadyExistsException(name);
-        //}
         Restaurant restaurant = new Restaurant(name, suburb, street, Double.valueOf(lat), Double.valueOf(lon), opens,
                 closes, website, phone);
         return restaurantRepository.save(restaurant);
