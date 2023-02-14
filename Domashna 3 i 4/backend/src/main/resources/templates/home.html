@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Title</title>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.1/css/fontawesome.min.css" integrity="sha384-QYIZto+st3yW+o8+5OHfT6S482Zsvz2WfOzpFSXMF9zqeLcFV0/wlZpMtyFcZALm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.1/css/fontawesome.min.css" integrity="sha384-QYIZto+st3yW+o8+5OHfT6S482Zsvz2WfOzpFSXMF9zqeLcFV0/wlZpMtyFcZALm" crossorigin="anonymous">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
           integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI="
           crossorigin=""/>
@@ -14,30 +14,17 @@
             integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM="
             crossorigin=""></script>
     <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
-    <style>
-        #map1{
-            width: 100%;
-            height: 600px;
-        }
-    </style>
-    <script>
-        function addRestaurantMarker(restaurants){
-           alert("Hi")
-
-        }
-    </script>
 </head>
 <body>
-
 
 <div id="header">
     <a href="/"><div id="header-left"><img src="../static/logo.png" th:src="@{/logo.png}" id="logo"/><h1 style="color: black">Restourants in Skopje</h1></div></a>
     <div style="margin-right: 80px;display: flex;align-items: center;">
-    <a id="dropdownSpan" href="/login" ><div id="login-btn-container"><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
-        <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3Zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/>
-    </svg><span th:if="${session.user==null}">Најави се</span><span th:if="${session.user!=null}" th:text="${session.user.getUsername()}"></span></div></a>
-    <a th:if="${session.user}!=null and ${session.user.isAdmin()}" style="color: black" href="/admin">Dashboard</a>
-    <a th:if="${session.user!=null}" style="margin-left: 30px; color: black" href="/logout">Logout</a>
+        <a id="dropdownSpan" href="/login" ><div id="login-btn-container"><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
+            <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3Zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/>
+        </svg><span th:if="${session.user==null}">Најави се</span><span th:if="${session.user!=null}" th:text="${session.user.getUsername()}"><!--<div id="dropdown-content"><a href="/admin">Dashboard</a><a href="/logout">Logout</a></div>--></span></div></a>
+        <a th:if="${session.user}!=null and ${session.user.isAdmin()}" style="color: black" href="/admin">Dashboard</a>
+        <a th:if="${session.user!=null}" style="margin-left: 30px; color: black" href="/logout">Logout</a>
     </div>
 </div>
 <div id="page-container">
@@ -48,15 +35,14 @@
     <div id="form-container">
         <button class="btn btn-info" onclick="getLocation()">Прикажи ги најблиските до мене</button>
         <form method="post" style="display: flex;flex-direction: column" th:action="@{/restaurants}">
-        <label for="ime">Име</label>
-        <input type="text" id="ime" name="ime" class="input-lg">
-        <label for="naselba">Населба</label>
-        <input type="text" id="naselba" name="naselba">
-        <button type="submit" class="btn btn-danger">Прикажи</button>
+            <label for="ime">Име</label>
+            <input type="text" id="ime" name="ime" class="input-lg">
+            <label for="naselba">Населба</label>
+            <input type="text" id="naselba" name="naselba">
+            <button type="submit" class="btn btn-danger">Прикажи</button>
         </form>
     </div>
 </div>
-
 
 <script th:inline="javascript">
 
@@ -66,12 +52,13 @@
         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     }).addTo(map);
 
+    /*<![CDATA[*/
 
-    var restaurants = null;
+    var restaurants = /*[[${restaurants}]]*/ null;
 
     if(restaurants != null){
         for(let i=0;i<restaurants.length;i++){
-           let marker = L.marker([restaurants[i].lat, restaurants[i].lon]).addTo(map);
+            let marker = L.marker([restaurants[i].lat, restaurants[i].lon]).addTo(map);
             marker.bindPopup('<div><b>'+restaurants[i].name +'</b><br><div style="display: flex;align-items: center"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-telephone-fill" viewBox="0 0 16 16">\n' +
                 '  <path fill-rule="evenodd" d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511z"/>\n' +
                 '</svg><b style="margin-left: 10px">'+restaurants[i].phone+'</b></div><div style="display: flex;align-items: center"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-laptop" viewBox="0 0 16 16">\n' +
@@ -80,7 +67,10 @@
         }
     }
 
+    /*]]>*/
+
 </script>
+
 <script>
     var x = document.getElementById("demo");
     var lon;
@@ -89,9 +79,7 @@
     function getLocation() {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(showPosition);
-
         }
-
     }
 
     function routeHandler(restaurantLat,restaurantLon){
@@ -103,13 +91,11 @@
             counter++;
             routeHandler(restaurantLat,restaurantLon);
         }
-
     }
 
     function routeMaker(position){
         lat = position.coords.latitude;
         lon = position.coords.longitude;
-
     }
 
     function routeDrawer(restaurantLat,restaurantLon){
@@ -125,8 +111,10 @@
 
     function showPosition(position) {
         window.location.replace("/home/nearest?lat=" + position.coords.latitude + "&lon=" + position.coords.longitude);
+        /*
+        x.innerHTML = "Latitude: " + position.coords.latitude +
+            "<br>Longitude: " + position.coords.longitude;*/
     }
-
 </script>
 
 </body>
